@@ -61,30 +61,3 @@ Install eksctl (EKS command-line tool):
 curl -fsSL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
 sudo mv /tmp/eksctl /usr/local/bin
 eksctl version # Verify installation
-
-
-
-
-Step 3: Configure Jenkins for AWS and SCM
-Install Jenkins Plugins: In the Jenkins UI, go to Manage Jenkins -> Plugins. Install:
-CloudBees AWS Credentials plugin
-Pipeline: Stage Step plugin
-Git plugin
-Add AWS Credentials to Jenkins:
-Go to Manage Jenkins -> Manage Credentials -> Jenkins -> Global credentials (unrestricted) -> Add Credentials.
-Select "AWS Credentials" as the kind.
-Enter your AWS Access Key ID and Secret Access Key. Give it an ID (e.g., aws-credentials).
-This allows Jenkins pipelines to interact with AWS services using these credentials.
-Configure Source Control (GitHub/CodeCommit):
-If using GitHub, generate a Personal Access Token (PAT) with repo scope. Add this as a "Secret text" credential in Jenkins.
-If using AWS CodeCommit, ensure your IAM role/user has the necessary permissions.
-Your Amazon Linux 2023 instance is now configured as a complete CI/CD server, ready to build and deploy applications using Jenkins pipelines.
-
-
-
-
-
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-chmod +x ./kubectl
-sudo mv ./kubectl /usr/local/bin/kubectl
-kubectl version --client
