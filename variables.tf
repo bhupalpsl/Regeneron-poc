@@ -68,6 +68,6 @@ variable "tags" {
   description = "Resource tags"
   type        = map(string)
   default = {
-    Owner = "dinesh"
+    Owner = "bhupal"
   }
 }

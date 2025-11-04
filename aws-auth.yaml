@@ -5,12 +5,12 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn: arn:aws:iam::640650870392:role/sample-app-node-role
+    - rolearn: arn:aws:iam::798194466242:role/sample-app-node-role
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: arn:aws:iam::640650870392:role/sample-app-role
+    - rolearn: arn:aws:iam::798194466242:role/sample-app-role
       username: jenkins
       groups:
         - system:masters
