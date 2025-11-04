@@ -1,0 +1,90 @@
+
+how to install jenkins server in EC2 for linux kernal( Linux 2023 AMI)
+=======================================================================
+ sudo dnf update -y
+
+ sudo dnf install java-17-amazon-corretto -y
+
+ java -version
+
+  sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+  sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+  sudo dnf install jenkins -y
+
+  sudo systemctl enable jenkins
+
+  sudo systemctl start jenkins
+
+  sudo systemctl status jenkins
+
+  sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+  e5926e3918be4d89b9dcd813483b890c
+
+
+  Installing Docker
+
+Step 2: Install Docker and other essential tools
+Install the tools necessary for building images and interacting with AWS/Kubernetes.
+Install Docker:
+
+sudo dnf install docker -y
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+Add the jenkins user to the docker group so Jenkins can run Docker commands without sudo (a crucial CI/CD step):
+sudo usermod -aG docker jenkins
+# Restart the jenkins service for the group changes to take effect
+sudo systemctl restart jenkins
+
+
+Install AWS CLI v2: Amazon Linux 2023 comes with AWS CLI pre-installed. Verify the version with aws --version.
+
+Install kubectl (Kubernetes command-line tool):
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+kubectl version --client
+
+
+Install terraform
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+sudo dnf install terraform -y
+terraform version # Verify installation
+
+Install eksctl (EKS command-line tool):
+# for ARM systems, use: curl -fsSL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_Linux_arm64.tar.gz" | tar xz -C /tmp
+curl -fsSL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+eksctl version # Verify installation
+
+
+
+
+Step 3: Configure Jenkins for AWS and SCM
+Install Jenkins Plugins: In the Jenkins UI, go to Manage Jenkins -> Plugins. Install:
+CloudBees AWS Credentials plugin
+Pipeline: Stage Step plugin
+Git plugin
+Add AWS Credentials to Jenkins:
+Go to Manage Jenkins -> Manage Credentials -> Jenkins -> Global credentials (unrestricted) -> Add Credentials.
+Select "AWS Credentials" as the kind.
+Enter your AWS Access Key ID and Secret Access Key. Give it an ID (e.g., aws-credentials).
+This allows Jenkins pipelines to interact with AWS services using these credentials.
+Configure Source Control (GitHub/CodeCommit):
+If using GitHub, generate a Personal Access Token (PAT) with repo scope. Add this as a "Secret text" credential in Jenkins.
+If using AWS CodeCommit, ensure your IAM role/user has the necessary permissions.
+Your Amazon Linux 2023 instance is now configured as a complete CI/CD server, ready to build and deploy applications using Jenkins pipelines.
+
+
+
+
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+kubectl version --client
