@@ -63,4 +63,3 @@ sudo mv /tmp/eksctl /usr/local/bin
 eksctl version # Verify installation
 
 #testing
-#testing2
